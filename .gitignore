@@ -30,4 +30,5 @@ tmp
 .yardoc
 _yardoc
 doc/
+data/config.yml
 
