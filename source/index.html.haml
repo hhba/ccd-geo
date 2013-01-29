@@ -1,5 +1,24 @@
 .row
   .twelve
-    #fusion{data: {fusion: data.config.fusion }
-    #mapa
+    #fusion{data: {fusion: data.config.fusion }}
+    #map
     #debug
+%script#infowindowTemplate{:type => "text/template"}
+  :plain
+    <section class='infowindow'>
+      <header>
+        <h4>
+          <%= name %>
+        </h4>
+      </header>
+      <article>
+        <ul>
+          <% if(!isBlank(address)){ %>
+            <li><%= address %></li>
+          <% } %>
+          <% if(!isBlank(city)){ %>
+            <li><%= city %></li>
+          <% } %>
+        </ul>
+      </article>
+    </section>
