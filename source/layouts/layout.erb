@@ -22,7 +22,7 @@
         <![endif]-->
 
         <%= yield %>
-        <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{data.config.gm}&sensor=true&language=es" %>
+        <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{data.config.gm}&sensor=true&language=es&libraries=geometry" %>
         <script src="js/main.js"></script>
     </body>
 </html>

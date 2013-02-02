@@ -6,24 +6,10 @@ function MapCCD(ccd, mapper){
   this.mapper = mapper;
   this.infowindowTemplate = _.template($("#infowindowTemplate").html());
 }
-MapCCD.prototype.addInfowindow = function(map){
-  var that = this;
-  var infowindow =  new google.maps.InfoWindow({
-    content: Mustache.render(markers.template, organization),
-    maxWidth: 300
-  });
-  google.maps.event.addListener(marker, 'click', function() {
-    if (lastInfowindow) lastInfowindow.close();
-    infowindow.open(map, marker);
-    lastInfowindow = infowindow;
-    $("#results").html(Mustache.render(markers.moreInfoTemplate, organization));
-  });
-};
 MapCCD.prototype.generateMarker = function(map){
   this.marker = new google.maps.Marker({
       position: this.ccd.latLng,
       map: map,
-      animation: google.maps.Animation.DROP,
       title: this.ccd.title,
       icon: this.ccd.icon
   });
@@ -44,7 +30,6 @@ MapCCD.prototype.drawOn = function(map){
   this.generateMarker(map);
   this.generateInfowindow(map);
 };
-
 
 function Mapper(selector) {
   this.lastInfoWindow = null;
@@ -123,47 +108,46 @@ function GeoLocalizator() {
 
 function FusionProxy(fusion_id){
   this.fusion_id = fusion_id;
+  this.getClosest = function(location, callback){
+    var lat = location.lat();
+    var lng = location.lng();
+    ft2json.query('SELECT * FROM ' + this.fusion_id + ' ORDER BY ST_DISTANCE(geoposta, LATLNG(' + lat + ', ' + lng + '))', function(result){
+      callback(result);
+    }, {
+      limit: 1
+    });
+  };
   this.getData = function(callback){
     var that = this;
     ft2json.query('SELECT * FROM ' + this.fusion_id, function(results){
-      console.log(results);
       callback(that.formatter(results));
+    }, {
+      limit: 1000
     });
   };
   this.formatter = function(results){
-    console.log(results);
     var that = this;
     this.data = _.map(results.data, function(result){
       var lat = result.geoposta.split(", ")[0];
       var lng = result.geoposta.split(", ")[1];
       return {
-        name:              result["ccd"],
-        address:           result["geo"],
-        city:              result["nom_prov"],
-        tipo:              result["tipo_estab_ccd"],
-        icon:              'icons/glyphicons_290_skull.png',
-        latLng:            new google.maps.LatLng(lat, lng),
-        latitude:          lat,
-        longitude:         lng
+        name:      result["ccd"],
+        otherName: result["ccd_otras_denom"],
+        address:   result["ubic"],
+        city:      result["nom_depto"],
+        state:     result["nom_prov"],
+        ccdType:   result["tipo_estab_ccd"],
+        icon:      'icons/glyphicons_290_skull.png',
+        latLng:    new google.maps.LatLng(lat, lng),
+        latitude:  lat,
+        longitude: lng
       };
     });
     return this.data;
   };
-  this.iconSelector = function(organization){
-    if (organization["Servicio 1"].length > 0 && organization["Servicio 2"].length > 0){
-      return "img/expert.png";
-    } else if (organization["Servicio 1"] == "Patrocinio jurídico"){
-      return "img/court.png";
-    } else if (organization["Servicio 1"] =="Asesoramiento"){
-      return "img/group.png";
-    } else if (organization["Servicio 1"] == "Atención psicológica"){
-      return "img/communitycentre.png";
-    } else {
-      return "img/expert.png";
-    }
+  this.iconSelector = function(ccd){
   };
 }
-
 $(document).ready(function(){
   var fusion_table_id = $("#fusion").data("fusion");
   mapper = new Mapper("map");
@@ -171,12 +155,35 @@ $(document).ready(function(){
   var geoLocalizator = new GeoLocalizator();
   mapper.init();
   fusionProxy.getData(function(ccds){
-    console.log(ccds);
     mapper.addCCDs(ccds);
     mapper.drawCCDs();
   });
-  geoLocalizator.currentPosition(function(position){
-    mapper.centerMap(position);
-    mapper.addMarker(position, "Ud. está aquí.");
+  geoLocalizator.currentPosition(function(currentPosition){
+    mapper.centerMap(currentPosition);
+    mapper.addMarker(currentPosition, "Ud. está aquí.");
+    fusionProxy.getClosest(currentPosition, function(result){
+      var lat = result.data[0].geoposta.split(", ")[0]
+      var lng = result.data[0].geoposta.split(", ")[0]
+      var closestCCD = new google.maps.LatLng(lat, lng);
+      var directionsService = new google.maps.DirectionsService();
+      var directionsDisplay = new google.maps.DirectionsRenderer();
+
+      directionsDisplay.setMap(mapper.map);
+      var request = {
+        origin: currentPosition,
+        destination: closestCCD,
+        travelMode: google.maps.TravelMode.WALKING,
+        unitSystem: google.maps.UnitSystem.METRIC
+      };
+      console.log(google.maps.geometry.spherical.computeDistanceBetween(currentPosition, closestCCD));
+      directionsService.route(request, function(result, status) {
+        console.log(status);
+        console.log(result);
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(result);
+        }
+      });
+    });
   });
 });
+

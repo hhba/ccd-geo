@@ -13,11 +13,20 @@
       </header>
       <article>
         <ul>
+          <% if(!isBlank(otherName)){ %>
+            <li><%= otherName %></li>
+          <% } %>
+          <% if(!isBlank(ccdType)){ %>
+            <li><%= ccdType %></li>
+          <% } %>
           <% if(!isBlank(address)){ %>
             <li><%= address %></li>
           <% } %>
           <% if(!isBlank(city)){ %>
             <li><%= city %></li>
+          <% } %>
+          <% if(!isBlank(state)){ %>
+            <li><%= state %></li>
           <% } %>
         </ul>
       </article>
