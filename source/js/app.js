@@ -162,6 +162,7 @@ $(document).ready(function(){
     mapper.centerMap(currentPosition);
     mapper.addMarker(currentPosition, "Ud. está aquí.");
     fusionProxy.getClosest(currentPosition, function(result){
+      var distance = 0;
       var lat = result.data[0].geoposta.split(", ")[0]
       var lng = result.data[0].geoposta.split(", ")[0]
       var closestCCD = new google.maps.LatLng(lat, lng);
@@ -175,7 +176,7 @@ $(document).ready(function(){
         travelMode: google.maps.TravelMode.WALKING,
         unitSystem: google.maps.UnitSystem.METRIC
       };
-      console.log(google.maps.geometry.spherical.computeDistanceBetween(currentPosition, closestCCD));
+      distance = google.maps.geometry.spherical.computeDistanceBetween(currentPosition, closestCCD);
       directionsService.route(request, function(result, status) {
         console.log(status);
         console.log(result);
@@ -183,6 +184,8 @@ $(document).ready(function(){
           directionsDisplay.setDirections(result);
         }
       });
+      console.log(result);
+      $("#debug").html("El CCD mas cercano esta en: " + result.data[0].geo);
     });
   });
 });
