@@ -1,3 +1,6 @@
+require 'zurb-foundation'
+preferred_syntax = :scss
+
 ###
 # Compass
 ###

@@ -10,17 +10,12 @@
         <title><%= data.page.title || "Centros Clandestinos de Detención" %></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
+        <%= stylesheet_link_tag "all" %>
     </head>
     <body>
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
         <![endif]-->
-
         <%= yield %>
         <%= javascript_include_tag "https://maps.googleapis.com/maps/api/js?key=#{data.config.gm}&sensor=false&language=es&libraries=geometry" %>
         <script src="js/main.js"></script>
