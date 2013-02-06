@@ -87,7 +87,11 @@ function Mapper(selector) {
     return this;
   };
 }
-function GeoLocalizator() {
+
+function GeoLocalizator(geoDriver) {
+  this.geocoder = new google.maps.Geocoder();
+  this.geoDriver = geoDriver;
+  this.currentAddress;
   this.currentPosition = function(callback){
     var that = this;
     this.callback = callback;
@@ -95,12 +99,25 @@ function GeoLocalizator() {
       navigator.geolocation.getCurrentPosition(
         function(position){
           var newCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude, {timeout: 5000});
+          that.latLng = newCenter;
+          that.getAddress();
           that.callback(newCenter);
         }, function(){
           that.errorHandler();
         }
       );
     }
+  };
+  this.getAddress = function(){
+    var that = this;
+    this.geocoder.geocode({'latLng': this.latLng}, function(results, status){
+      if(status == google.maps.GeocoderStatus.OK){
+        that.currentAddress = results[0].formatted_address;
+        that.geoDriver.setOriginAddress(that.currentAddress);
+      } else {
+        that.currentAddress = "";
+      }
+    });
   };
   this.errorHandler = function(msg){
   };
@@ -148,11 +165,52 @@ function FusionProxy(fusion_id){
   this.iconSelector = function(ccd){
   };
 }
+
+function GeoDriver(mapper){
+  this.mapper = mapper;
+  this.originAddressFlag = false;
+  this.destinationAddressFlag = false;
+  this.directionsService = new google.maps.DirectionsService();
+  this.directionsDisplay = new google.maps.DirectionsRenderer();
+
+  this.setOriginAddress = function(address){
+    this.originAddress = address;
+    this.originAddressFlag = true;
+    if(this.destinationAddressFlag){
+      this.drawMap();
+    }
+  };
+  this.setDestinationAddress = function(address){
+    this.destinationAddress = address;
+    this.destinationAddressFlag = true;
+    if(this.originAddressFlag){
+      this.drawMap();
+    }
+  };
+  this.drawMap = function(){
+    var that = this;
+    var request = {
+      origin: this.originAddress,
+      destination: this.destinationAddress,
+      travelMode: google.maps.TravelMode.WALKING,
+      unitSystem: google.maps.UnitSystem.METRIC
+    };
+    this.directionsDisplay.setMap(mapper.map);
+    /*distance = google.maps.geometry.spherical.computeDistanceBetween(currentPosition, closestCCD);*/
+    this.directionsService.route(request, function(result, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        that.directionsDisplay.setDirections(result);
+      }
+    });
+  };
+}
+
 $(document).ready(function(){
   var fusion_table_id = $("#fusion").data("fusion");
-  mapper = new Mapper("map");
+  var mapper = new Mapper("map");
   var fusionProxy = new FusionProxy(fusion_table_id);
-  var geoLocalizator = new GeoLocalizator();
+  var geoDriver = new GeoDriver(mapper);
+  var geoLocalizator = new GeoLocalizator(geoDriver);
   mapper.init();
   fusionProxy.getData(function(ccds){
     mapper.addCCDs(ccds);
@@ -162,30 +220,7 @@ $(document).ready(function(){
     mapper.centerMap(currentPosition);
     mapper.addMarker(currentPosition, "Ud. está aquí.");
     fusionProxy.getClosest(currentPosition, function(result){
-      var distance = 0;
-      var lat = result.data[0].geoposta.split(", ")[0]
-      var lng = result.data[0].geoposta.split(", ")[0]
-      var closestCCD = new google.maps.LatLng(lat, lng);
-      var directionsService = new google.maps.DirectionsService();
-      var directionsDisplay = new google.maps.DirectionsRenderer();
-
-      directionsDisplay.setMap(mapper.map);
-      var request = {
-        origin: currentPosition,
-        destination: closestCCD,
-        travelMode: google.maps.TravelMode.WALKING,
-        unitSystem: google.maps.UnitSystem.METRIC
-      };
-      distance = google.maps.geometry.spherical.computeDistanceBetween(currentPosition, closestCCD);
-      directionsService.route(request, function(result, status) {
-        console.log(status);
-        console.log(result);
-        if (status == google.maps.DirectionsStatus.OK) {
-          directionsDisplay.setDirections(result);
-        }
-      });
-      console.log(result);
-      $("#debug").html("El CCD mas cercano esta en: " + result.data[0].geo);
+      geoDriver.setDestinationAddress(result.data[0].geo);
     });
   });
 });
