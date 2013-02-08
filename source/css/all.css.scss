@@ -44,3 +44,14 @@
 // @import "foundation/components/modules/orbit";
 // @import "foundation/components/modules/reveal";
 
+body{
+  background-color: $mainColor;
+}
+h1{
+  text-align: center;
+}
+#map{
+  width: 100%;
+  height: 550px;
+}
+
