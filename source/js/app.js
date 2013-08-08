@@ -123,28 +123,25 @@ function GeoLocalizator(geoDriver) {
   };
 }
 
-function FusionProxy(fusion_id){
+function FusionProxy(fusion_id, apiKey){
   this.fusion_id = fusion_id;
+  this.apiKey = apiKey;
   this.getClosest = function(location, callback){
     var lat = location.lat();
     var lng = location.lng();
-    ft2json.query('SELECT * FROM ' + this.fusion_id + ' ORDER BY ST_DISTANCE(geoposta, LATLNG(' + lat + ', ' + lng + '))', function(result){
+    ftToJSON('SELECT * FROM ' + this.fusion_id + ' LIMIT 1 ORDER BY ST_DISTANCE(geoposta, LATLNG(' + lat + ', ' + lng + '))', this.apiKey, function(result){
       callback(result);
-    }, {
-      limit: 1
     });
   };
   this.getData = function(callback){
     var that = this;
-    ft2json.query('SELECT * FROM ' + this.fusion_id, function(results){
+    ftToJSON('SELECT * FROM ' + this.fusion_id, this.apiKey, function(results){
       callback(that.formatter(results));
-    }, {
-      limit: 1000
     });
   };
   this.formatter = function(results){
     var that = this;
-    this.data = _.map(results.data, function(result){
+    this.data = _.map(results, function(result){
       var lat = result.geoposta.split(", ")[0];
       var lng = result.geoposta.split(", ")[1];
       return {
@@ -154,7 +151,7 @@ function FusionProxy(fusion_id){
         city:      result["nom_depto"],
         state:     result["nom_prov"],
         ccdType:   result["tipo_estab_ccd"],
-        icon:      'icons/glyphicons_290_skull.png',
+        icon:      'icons/glyphicons_242_google_maps.png',
         latLng:    new google.maps.LatLng(lat, lng),
         latitude:  lat,
         longitude: lng
@@ -207,8 +204,9 @@ function GeoDriver(mapper){
 
 $(document).ready(function(){
   var fusion_table_id = $("#fusion").data("fusion");
+  var apiKey = $("#fusion").data("api");
   var mapper = new Mapper("map");
-  var fusionProxy = new FusionProxy(fusion_table_id);
+  var fusionProxy = new FusionProxy(fusion_table_id, apiKey);
   var geoDriver = new GeoDriver(mapper);
   var geoLocalizator = new GeoLocalizator(geoDriver);
   mapper.init();
@@ -216,12 +214,12 @@ $(document).ready(function(){
     mapper.addCCDs(ccds);
     mapper.drawCCDs();
   });
-  geoLocalizator.currentPosition(function(currentPosition){
-    mapper.centerMap(currentPosition);
-    mapper.addMarker(currentPosition, "Ud. está aquí.");
-    fusionProxy.getClosest(currentPosition, function(result){
-      geoDriver.setDestinationAddress(result.data[0].geo);
-    });
-  });
+  /*geoLocalizator.currentPosition(function(currentPosition){*/
+  /*mapper.centerMap(currentPosition);*/
+  /*mapper.addMarker(currentPosition, "Ud. está aquí.");*/
+  /*fusionProxy.getClosest(currentPosition, function(result){*/
+  /*geoDriver.setDestinationAddress(result[0].geo);*/
+  /*});*/
+  /*});*/
 });
 

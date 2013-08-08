@@ -1,6 +1,6 @@
 //= require 'vendor/jquery'
 //= require 'vendor/underscore'
-//= require 'vendor/ft2json'
+//= require 'fttojson'
 
 //= require 'plugins'
 //= require 'app'
