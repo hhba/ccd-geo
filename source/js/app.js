@@ -129,9 +129,14 @@ function FusionProxy(fusion_id, apiKey){
   this.getClosest = function(location, callback){
     var lat = location.lat();
     var lng = location.lng();
-    ftToJSON('SELECT * FROM ' + this.fusion_id + ' LIMIT 1 ORDER BY ST_DISTANCE(geoposta, LATLNG(' + lat + ', ' + lng + '))', this.apiKey, function(result){
-      callback(result);
-    });
+    ftToJSON(
+      'SELECT * FROM ' + this.fusion_id + ' ORDER BY ST_DISTANCE(geoposta, LATLNG(' + lat + ', ' + lng + ')) LIMIT 1',
+      this.apiKey,
+      function(result){
+        console.log(result)
+        callback(result);
+      }
+    );
   };
   this.getData = function(callback){
     var that = this;
@@ -214,12 +219,12 @@ $(document).ready(function(){
     mapper.addCCDs(ccds);
     mapper.drawCCDs();
   });
-  /*geoLocalizator.currentPosition(function(currentPosition){*/
-  /*mapper.centerMap(currentPosition);*/
-  /*mapper.addMarker(currentPosition, "Ud. está aquí.");*/
-  /*fusionProxy.getClosest(currentPosition, function(result){*/
-  /*geoDriver.setDestinationAddress(result[0].geo);*/
-  /*});*/
-  /*});*/
+  geoLocalizator.currentPosition(function(currentPosition){
+    mapper.centerMap(currentPosition);
+    mapper.addMarker(currentPosition, "Ud. está aquí.");
+    fusionProxy.getClosest(currentPosition, function(result){
+      geoDriver.setDestinationAddress(result[0].geo);
+    });
+  });
 });
 
