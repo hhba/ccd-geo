@@ -46,6 +46,6 @@ function FusionProxy(fusion_id, apiKey){
       return gmIcons[iconName].regExp.test(institution);
     });
 
-    return gmIcons[iconName];
+    return gmIcons[iconName].icon;
   };
 }
