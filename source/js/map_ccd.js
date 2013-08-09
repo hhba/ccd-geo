@@ -8,7 +8,8 @@ MapCCD.prototype.generateMarker = function(map){
       position: this.ccd.latLng,
       map: map,
       title: this.ccd.title,
-      icon: this.ccd.icon
+      icon: this.ccd.icon,
+      animation: google.maps.Animation.DROP
   });
 };
 MapCCD.prototype.generateInfowindow = function(map){
