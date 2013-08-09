@@ -57,8 +57,8 @@ var gmIcons = {
   },
   default: {
     path: google.maps.SymbolPath.CIRCLE,
-    strokeColor: 'grey',
-    fillColor: 'grey',
+    strokeColor: 'yellow',
+    fillColor: 'yellow',
     strokeWeight: 5,
     fillOpacity: 0.8,
     regExp: /./
