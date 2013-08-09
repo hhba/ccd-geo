@@ -133,7 +133,6 @@ function FusionProxy(fusion_id, apiKey){
       'SELECT * FROM ' + this.fusion_id + ' ORDER BY ST_DISTANCE(geoposta, LATLNG(' + lat + ', ' + lng + ')) LIMIT 1',
       this.apiKey,
       function(result){
-        console.log(result)
         callback(result);
       }
     );
@@ -198,7 +197,7 @@ function GeoDriver(mapper){
       unitSystem: google.maps.UnitSystem.METRIC
     };
     this.directionsDisplay.setMap(mapper.map);
-    /*distance = google.maps.geometry.spherical.computeDistanceBetween(currentPosition, closestCCD);*/
+    /*distance = google.maps.geometry.spherical.computeDistanceBetween(this.originAddress, this.destinationAddress);*/
     this.directionsService.route(request, function(result, status) {
       if (status == google.maps.DirectionsStatus.OK) {
         that.directionsDisplay.setDirections(result);
@@ -219,11 +218,19 @@ $(document).ready(function(){
     mapper.addCCDs(ccds);
     mapper.drawCCDs();
   });
-  geoLocalizator.currentPosition(function(currentPosition){
-    mapper.centerMap(currentPosition);
-    mapper.addMarker(currentPosition, "Ud. está aquí.");
-    fusionProxy.getClosest(currentPosition, function(result){
-      geoDriver.setDestinationAddress(result[0].geo);
+
+  $('#closestCCD').click(function(event){
+    event.preventDefault();
+    geoLocalizator.currentPosition(function(currentPosition){
+      mapper.centerMap(currentPosition);
+      mapper.addMarker(currentPosition, "Ud. está aquí.");
+      fusionProxy.getClosest(currentPosition, function(result){
+        if(result.lenght > 0){
+          geoDriver.setDestinationAddress(result[0].geo);
+        } else {
+          alert('No hemos podido encontrar el CCD más cercano a tu ubicación.')
+        }
+      });
     });
   });
 });
