@@ -1,6 +1,8 @@
 function MapCCD(ccd, mapper){
   this.ccd = ccd;
   this.mapper = mapper;
+  this.ccdType = ccd.ccdType;
+  this.state = ccd.state;
   this.infowindowTemplate = _.template($("#infowindowTemplate").html());
 }
 MapCCD.prototype.generateMarker = function(map){
@@ -28,3 +30,17 @@ MapCCD.prototype.drawOn = function(map){
   this.generateMarker(map);
   this.generateInfowindow(map);
 };
+MapCCD.prototype.hide = function(){
+  this.marker.setVisible(false);
+  return this;
+}
+MapCCD.prototype.show = function(){
+  this.marker.setVisible(true);
+  return this;
+}
+MapCCD.prototype.isLocated = function(state){
+  return ccd.state === state;
+}
+MapCCD.prototype.isBuilding = function(building){
+  return ccd.ccdType === building;
+}

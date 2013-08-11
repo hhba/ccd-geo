@@ -9,5 +9,7 @@
 //= require 'geo_localizator'
 //= require 'fusion_proxy'
 //= require 'geo_driver'
+//= require 'filter'
+//= require 'filter_reset'
 //= require 'ccd'
 //= require 'app'

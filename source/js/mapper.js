@@ -32,11 +32,30 @@ function Mapper(selector) {
     this.mapCCDs = _.map(ccds, function(ccd){
       return new MapCCD(ccd, that);
     });
+    return this;
   };
   this.drawCCDs = function(){
     var that = this;
     _.each(this.mapCCDs, function(mapCCD){
       mapCCD.drawOn(that.map);
+    });
+    return this;
+  };
+  this.show = function(option){
+    _.each(this.mapCCDs, function(mapCCD){
+      if(mapCCD[option.filter] == option.value){
+        mapCCD.show();
+      }
+    });
+  };
+  this.hideAll = function(){
+    _.each(this.mapCCDs, function(mapCCD){
+      mapCCD.hide();
+    });
+  };
+  this.showAll = function(){
+    _.each(this.mapCCDs, function(mapCCD){
+      mapCCD.show();
     });
   };
   this.addMarker = function(position, text){
