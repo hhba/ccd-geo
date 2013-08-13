@@ -11,7 +11,8 @@ MapCCD.prototype.generateMarker = function(map){
       map: map,
       title: this.ccd.title,
       icon: this.ccd.icon,
-      animation: google.maps.Animation.DROP
+      animation: google.maps.Animation.DROP,
+      zIndex: 100
   });
 };
 MapCCD.prototype.generateInfowindow = function(map){
