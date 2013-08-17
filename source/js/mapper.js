@@ -2,10 +2,12 @@ function Mapper(selector) {
   this.lastInfoWindow = null;
   this.selector = selector;
   this.mapCCDs = [];
+  this.defaultLocation = new google.maps.LatLng(-33.65682940830173, -63.85107421875);
+  this.defaultZoom = 5;
   this.init = function(){
     this.map = new google.maps.Map(document.getElementById(this.selector), {
-      center: new google.maps.LatLng(-33.65682940830173, -63.85107421875),
-      zoom: 5
+      center: this.defaultLocation,
+      zoom:   this.defaultZoom
     });
     return this.styleMap();
   };
@@ -66,10 +68,13 @@ function Mapper(selector) {
         title: text
     });
   };
-  this.centerMap = function(location, zoom) {
+  this.centerMap = function(location, zoom){
     zoom = typeof zoom !== 'undefined' ? zoom : 15;
     this.map.setCenter(location);
     this.map.setZoom(zoom);
     return this;
   };
+  this.reset = function(){
+    this.centerMap(this.defaultLocation, this.defaultZoom);
+  }
 }

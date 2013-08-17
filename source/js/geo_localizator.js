@@ -29,6 +29,15 @@ function GeoLocalizator(geoDriver) {
       }
     });
   };
+  this.getLatLng = function(city, success, error) {
+    this.geocoder.geocode({'address': city + ', Argentina' }, function(results, status){
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (success !== undefined ) success(results);
+      } else {
+        if (error !== undefined ) error(status);
+      }
+    })
+  };
   this.errorHandler = function(msg){
   };
 }

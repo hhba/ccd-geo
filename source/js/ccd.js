@@ -13,6 +13,13 @@ function ccd(){
   fusionProxy.getData(function(ccds){
     mapper.addCCDs(ccds).drawCCDs();
     statesFilter.loadData(ccds).render().bind().setUpdatable(mapper);
+    statesFilter.afterUpdate = function(value) {
+      if(value !== 'Todos'){
+        geoLocalizator.getLatLng(value, function(results){
+          mapper.centerMap(results[0].geometry.location, 7);
+        });
+      }
+    }
     buildingFilter.loadData(ccds).render().bind().setUpdatable(mapper);
   });
   filterReset.setUpdatable(mapper).setFilters([statesFilter, buildingFilter]);

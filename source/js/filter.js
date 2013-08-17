@@ -1,4 +1,5 @@
 function Filter(selector, filter){
+  this.afterUpdate = undefined;
   this.data = [];
   this.htmlElement = $("#" + selector);
   this.filter = filter;
@@ -19,12 +20,16 @@ function Filter(selector, filter){
   this.update = function(value){
     if(value === 'Todos') {
       this.updatable.showAll();
+      this.updatable.reset();
     } else {
       this.updatable.hideAll();
       this.updatable.show({
         filter: this.filter,
         value: value
       });
+    }
+    if(this.afterUpdate){
+      this.afterUpdate(value);
     }
     return this;
   }
