@@ -40,28 +40,26 @@ klass: ccd
                 Reiniciar filtros
   .three.columns
 %section.row.last_row
-  .twelve.columns
+  .ten.columns
     %label
       Referencias
     %ul.references
       %li.police
-        <img src='/img/ref-policia.png'>
         Policía
       %li.navy
-        <img src='/img/ref-marina.png'>
         Marina
       %li.army
         Ejército
-        <img src='/img/ref-ejercito.png'>
       %li.jail
-        <img src='/img/ref-penitenciaría.png'>
         Penitenciaría
       %li.prefecture
-        <img src='/img/ref-prefectura.png'>
         Prefectura
       %li.others
-        <img src='/img/ref-otros.png'>
         Otros
+  .two.columns
+    %p{style: 'text-align: right;'}
+      %a{href: 'http://hhba.info', target: "_blank"}
+        %img{src:'/img/hhba.jpg'}
 %script#optionsSelect{type: 'text/template'}
   :plain
     <option>Todos</options>

@@ -103,9 +103,51 @@ fieldset{
     background: none;
   }
 }
-.form_row{
+.last_row{
   border-bottom: 1px solid #fff;
+  label{
+    font-weight: bold;
+    margin-left: 14px;
+  }
+  ul.references{
+    line-height: 28px;
+    margin: 10px 0 15px 12px;
+    li{
+      display: inline-block;
+      height: 32px;
+      padding-left: 30px;
+      padding-right: 15px;
+    }
+    li.police{
+      background: url("/img/ref-policia.png") no-repeat top left;
+    }
+    li.navy{
+      background: url("/img/ref-marina.png") no-repeat top left;
+    }
+    li.army{
+      background: url("/img/ref-ejercito.png") no-repeat top left;
+    }
+    li.jail{
+      background: url("/img/ref-penitenciaria.png") no-repeat top left;
+    }
+    li.prefecture{
+      background: url("/img/ref-prefectura.png") no-repeat top left;
+    }
+    li.others{
+      background: url("/img/ref-otros.png") no-repeat top left;
+    }
+  }
+  img{
+    width:100px;
+  }
 }
 footer.row{
   margin-top: 18px;
+}
+.memoria{
+  color: #666;
+  background-color: #eee;
+  h1, h5{
+    color: #333;
+  }
 }
