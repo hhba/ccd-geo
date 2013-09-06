@@ -1,6 +1,6 @@
-SSH_USER = 'malev'
-SSH_HOST = 'www.grouppet.com.ar'
-SSH_DIR  = '/home/malev/apps/ccd.grouppet.com.ar'
+SSH_USER = 'deployer'
+SSH_HOST = '184.173.160.186'
+SSH_DIR  = '/home/deployer/apps/ccd.mapa76.info'
 
 desc "Build the website from source"
 task :build do
