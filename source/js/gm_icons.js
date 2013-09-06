@@ -6,7 +6,7 @@ var gmIcons = {
     strokeWeight: 5,
     fillOpacity: 0.8,
     regExp: /prefectura/i,
-    icon: 'img/brown.png'
+    icon: 'img/prefectura.png'
   },
   ejercito: {
     path: google.maps.SymbolPath.CIRCLE,
@@ -15,16 +15,7 @@ var gmIcons = {
     strokeWeight: 5,
     fillOpacity: 0.8,
     regExp: /ejercito/i,
-    icon: 'img/green.png'
-  },
-  aerea: {
-    path: google.maps.SymbolPath.CIRCLE,
-    strokeColor: '#84D3F5',
-    fillColor: '#84D3F5',
-    strokeWeight: 5,
-    fillOpacity: 0.8,
-    regExp: /aerea/i,
-    icon: 'img/blue2.png'
+    icon: 'img/ejercito.png'
   },
   policia: {
     path: google.maps.SymbolPath.CIRCLE,
@@ -33,25 +24,7 @@ var gmIcons = {
     strokeWeight: 5,
     fillOpacity: 0.8,
     regExp: /policia/i,
-    icon: 'img/blue.png'
-  },
-  hospital: {
-    path: google.maps.SymbolPath.CIRCLE,
-    strokeColor: 'red',
-    fillColor: 'red',
-    strokeWeight: 5,
-    fillOpacity: 0.8,
-    regExp: /hospital/i,
-    icon: 'img/red.png'
-  },
-  gendarmeria: {
-    path: google.maps.SymbolPath.CIRCLE,
-    strokeColor: '#2F6E33',
-    fillColor: '#2F6E33',
-    strokeWeight: 5,
-    fillOpacity: 0.8,
-    regExp: /gendarmeria/i,
-    icon: 'img/brown.png'
+    icon: 'img/policia.png'
   },
   marina: {
     path: google.maps.SymbolPath.CIRCLE,
@@ -60,7 +33,16 @@ var gmIcons = {
     strokeWeight: 5,
     fillOpacity: 0.8,
     regExp: /marina/i,
-    icon: 'img/grey.png'
+    icon: 'img/marina.png'
+  },
+  penitenciaria: {
+    path: google.maps.SymbolPath.CIRCLE,
+    strokeColor: '#3c3c3c',
+    fillColor: '#3c3c3c',
+    strokeWeight: 5,
+    fillOpacity: 0.8,
+    regExp: /peniten/i,
+    icon: 'img/penitenciaria.png'
   },
   default: {
     path: google.maps.SymbolPath.CIRCLE,
@@ -69,6 +51,6 @@ var gmIcons = {
     strokeWeight: 5,
     fillOpacity: 0.8,
     regExp: /./,
-    icon: 'img/yellow.png'
+    icon: 'img/resto.png'
   }
 }

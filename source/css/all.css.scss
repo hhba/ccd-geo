@@ -44,10 +44,67 @@
 // @import "foundation/components/modules/orbit";
 // @import "foundation/components/modules/reveal";
 
+//body{
+  //background-color: #FAFBFC;
+//}
+
 body{
-  background-color: #FAFBFC;
+  background-color: #1B1B1B;
 }
 h1{
   text-align: center;
 }
-#map img{max-width: inherit;}
+a{
+  color: #FF3535;
+}
+a:hover{
+  color: #FF2525;
+}
+a:visited{
+  color: #FF2525;
+}
+.background {
+  background: url(/img/background.jpg) no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 106%;
+  left: 0;
+  padding: 10%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+#map{
+  border: 3px solid #FFFFFF;
+  @include border-radius(3px, 3px);
+  img{
+    max-width: inherit;
+  }
+}
+.infowindow{
+  color: #666;
+  font-size: 13px;
+  font-family: "Ubuntu Condensed",arial,helvetica,sans-serif;
+  h4{
+    color: #333;
+    font-size: 15px;
+    font-family: "Ubuntu Condensed",arial,helvetica,sans-serif;
+  }
+}
+fieldset{
+  border: none;
+  font-size: 15px;
+  margin: 28px 0 10px;
+  legend{
+    background: none;
+  }
+}
+.form_row{
+  border-bottom: 1px solid #fff;
+}
+footer.row{
+  margin-top: 18px;
+}

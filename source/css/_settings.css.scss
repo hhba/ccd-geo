@@ -13,11 +13,11 @@
 // Colors Settings
 
 // $mainColor: #d9d2ce;
-$secondaryColor: #e8f0e4;
+$secondaryColor: #FF3535;
 $alertColor: #ba585c;
 $successColor: #8bbab4;
-$txtColor: #4a3635;
-$highlightColor: #825555;
+$txtColor: #fff;
+$highlightColor: #fff;
 // $black: #000;
 // $white: #fff;
 // $shinyEdge: rgba(#fff, .5);
@@ -26,11 +26,11 @@ $highlightColor: #825555;
 // Font Settings
 
 // $fontSmoothing: antialiased;
-$headerFontFamily: 'Montserrat', sans-serif;
+$headerFontFamily: 'Ubuntu Condensed', arial, helvetica, sans-serif;
 $headerFontWeight: normal;
 // $headerFontStyle: normal;
-// $headerFontColor: #222;
-$bodyFontFamily: 'Montserrat', sans-serif;
+$headerFontColor: #fffcf2;
+$bodyFontFamily: 'Ubuntu Condensed', arial, helvetica, sans-serif;
 // $bodyFontWeight: normal;
 // $bodyFontStyle: normal;
 // $bodyFontColor: $txtColor;
@@ -52,7 +52,7 @@ $bodyFontFamily: 'Montserrat', sans-serif;
 
 // $formSpacing: 12px;
 // $labelFontWeight: 500;
-// $labelFontColor: lighten(#000, 30%);
+$labelFontColor: darken(#fff, 5%);
 // $labelBtmMargin: 3px;
 // $inputFontColor: rgba(0,0,0,0.75);
 // $inputFontSize: 14px;
