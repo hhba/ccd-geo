@@ -44,7 +44,7 @@ var gmIcons = {
     regExp: /peniten/i,
     icon: 'img/penitenciaria.png'
   },
-  default: {
+  misc: {
     path: google.maps.SymbolPath.CIRCLE,
     strokeColor: 'yellow',
     fillColor: 'yellow',
