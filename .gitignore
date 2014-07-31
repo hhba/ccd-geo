@@ -16,6 +16,7 @@
 *.rbc
 .bundle
 .config
+.s3_sync
 coverage
 InstalledFiles
 lib/bundler/man
